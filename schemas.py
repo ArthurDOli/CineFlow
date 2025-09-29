@@ -11,6 +11,11 @@ class MovieSchema(BaseModel):
     title: str
     duration_minutes: int
 
+class MovieDisplaySchema(BaseModel):
+    id: int
+    title: str
+    duration_minutes: int
+
 class RoomSchema(BaseModel):
     name: str
     capacity: int
