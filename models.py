@@ -36,8 +36,8 @@ class Session(Base):
     ticket_price = Column(Float)
     movie_id = Column(ForeignKey('movies.id'))
     room_id = Column(ForeignKey('rooms.id'))
-    movie = relationship('Movie', back_populates='session')
-    room = relationship('Room', back_populates='session')
+    movie = relationship('Movie', back_populates='sessions')
+    room = relationship('Room', back_populates='sessions')
     tickets = relationship('Ticket', back_populates='session')
 
 class Ticket(Base):
