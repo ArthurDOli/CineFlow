@@ -14,6 +14,10 @@ class UserDisplay(UserBase):
     is_admin: bool
     model_config = ConfigDict(from_attributes=True)
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
 class MovieSchema(BaseModel):
     title: str
     duration_minutes: int
