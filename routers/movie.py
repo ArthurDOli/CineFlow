@@ -7,6 +7,11 @@ from typing import List
 
 movie_router = APIRouter(prefix='/movie', tags=['Movies'])
 
+@movie_router.get('/list-all-movies', response_model=List[MovieDisplaySchema])
+async def list_all_movies(session: Session = Depends(getSession)):
+    movie = session.query(Movie).all()
+    return movie
+
 @movie_router.post('/create-movie', status_code=status.HTTP_201_CREATED, response_model=MovieDisplaySchema)
 async def create_movie(movie_base: MovieSchema, session: Session = Depends(getSession)):
     movie = session.query(Movie).filter(Movie.title == movie_base.title).first()
@@ -18,13 +23,8 @@ async def create_movie(movie_base: MovieSchema, session: Session = Depends(getSe
         session.commit()
         session.refresh(new_movie)
         return new_movie
-    
-@movie_router.get('/list-all-movies', response_model=List[MovieDisplaySchema])
-async def list_all_movies(session: Session = Depends(getSession)):
-    movie = session.query(Movie).all()
-    return movie
 
-@movie_router.put('/update-movie/{movie_id}', response_model=MovieSchema)
+@movie_router.put('/update-movie/{movie_id}', response_model=MovieDisplaySchema)
 async def update_movie(movie_id: int, movie_base: MovieSchema, session: Session = Depends(getSession)):
     movie = session.query(Movie).filter(Movie.id==movie_id).first()
     if not movie:
