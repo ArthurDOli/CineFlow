@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from schemas import SessionSchema, SessionDisplaySchema
-from sqlalchemy.orm import Session as DbSession
+from sqlalchemy.orm import Session as DbSession, joinedload
 from dependencies import getSession
 from typing import List
 from models import Session as SessionModel
@@ -12,7 +12,10 @@ session_router = APIRouter(prefix='/sessions', tags=['Sessions'])
 
 @session_router.get('/list-sessions', response_model=List[SessionDisplaySchema])
 async def list_sessions(db: DbSession = Depends(getSession)):
-    sessions = db.query(SessionModel).all()
+    sessions = db.query(SessionModel).options(
+        joinedload(SessionModel.movie),
+        joinedload(SessionModel.room)
+    ).all()
     return sessions
 
 @session_router.post('/create-session', status_code=status.HTTP_201_CREATED, response_model=SessionDisplaySchema)

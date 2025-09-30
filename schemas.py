@@ -33,6 +33,8 @@ class SessionDisplaySchema(BaseModel):
     start_time: datetime.datetime
     end_time: datetime.datetime | None
     ticket_price: float
+    movie: MovieDisplaySchema
+    room: RoomDisplaySchema
     model_config = ConfigDict(from_attributes=True)
 
 class TicketSchema(BaseModel):
