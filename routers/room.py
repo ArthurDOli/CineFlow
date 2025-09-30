@@ -24,7 +24,7 @@ async def create_room(room_base: RoomSchema, session: Session = Depends(getSessi
         session.refresh(new_room)
         return new_room
     
-@room_router.put('/update-room/{room_id}', response_model=RoomDisplaySchema)
+@room_router.patch('/update-room/{room_id}', response_model=RoomDisplaySchema)
 async def update_room(room_id: int, room_base: RoomSchema, session: Session = Depends(getSession)):
     room = session.query(Room).filter(Room.id==room_id).first()
     if not room:
