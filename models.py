@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, String, ForeignKey, Integer, Boolean, DateTime, Float
 from sqlalchemy.orm import declarative_base, relationship
+from datetime import timedelta
 
 db_url = 'sqlite:///database.db'
 engine = create_engine(db_url, connect_args={'check_same_thread': False})
@@ -39,6 +40,11 @@ class Session(Base):
     movie = relationship('Movie', back_populates='sessions')
     room = relationship('Room', back_populates='sessions')
     tickets = relationship('Ticket', back_populates='session')
+    @property
+    def end_time(self):
+        if self.movie and self.start_time:
+            return self.start_time + timedelta(minutes=self.movie.duration_minutes)
+        return None
 
 class Ticket(Base):
     __tablename__ = 'tickets'
