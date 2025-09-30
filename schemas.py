@@ -47,6 +47,7 @@ class SessionSchema(BaseModel):
 class SessionDisplaySchema(BaseModel):
     id: int
     start_time: datetime.datetime
+    end_time: datetime.datetime | None
     ticket_price: float
     # movie: MovieDisplaySchema
     # room: RoomDisplaySchema
