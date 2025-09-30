@@ -24,7 +24,7 @@ async def create_movie(movie_base: MovieSchema, session: Session = Depends(getSe
         session.refresh(new_movie)
         return new_movie
 
-@movie_router.put('/update-movie/{movie_id}', response_model=MovieDisplaySchema)
+@movie_router.patch('/update-movie/{movie_id}', response_model=MovieDisplaySchema)
 async def update_movie(movie_id: int, movie_base: MovieSchema, session: Session = Depends(getSession)):
     movie = session.query(Movie).filter(Movie.id==movie_id).first()
     if not movie:
