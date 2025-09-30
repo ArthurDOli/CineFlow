@@ -14,8 +14,8 @@ async def list_tickets_for_sesssion(session_id: int, db: DbSession = Depends(get
 
 @ticket_router.post('/', status_code=status.HTTP_201_CREATED, response_model=TicketDisplaySchema)
 async def buy_ticket(ticket_base: TicketCreateSchema, db: DbSession = Depends(getSession)):
-    tickets = db.query(Session).filter(Session.id==ticket_base.session_id).first()
-    if not tickets:
+    session = db.query(Session).filter(Session.id==ticket_base.session_id).first()
+    if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")
     existing_ticket = db.query(Ticket).filter(Ticket.session_id==ticket_base.session_id, Ticket.seat_number==ticket_base.seat_number).first()
     if existing_ticket:
